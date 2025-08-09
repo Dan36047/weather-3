@@ -1,40 +1,96 @@
-const WeatherDisplay = ({ data }) => {
-    return (
-        <div className="mt-8 bg-white rounded-lg shadow-md p-6 max-w-md mx-auto">
-            <div className="flex justify-between items-center">
-                <div>
-                    <h2 className="text-2xl font-bold">
-                        {data.location.name}, {data.location.country}
-                    </h2>
-                    <p className="text-gray-600">
-                        {new Date().toLocaleDateString('ru-RU', {
-                            weekday: 'long',
-                            day: 'numeric',
-                            month: 'long'
-                        })}
-                    </p>
-                </div>
-                <div className="text-right">
-                    <p className="text-4xl font-bold">{data.current.temp_c}°C</p>
-                    <p className="text-gray-600 capitalize">
-                        {data.current.condition.text}
-                    </p>
-                </div>
-            </div>
+import './WeatherDisplay.css'
 
-            <div className="mt-6 flex items-center justify-between">
-                <img
-                    src={data.current.condition.icon}
-                    alt={data.current.condition.text}
-                    className="h-16 w-16"
-                />
-                <div className="text-gray-700">
-                    <p>Влажность: {data.current.humidity}%</p>
-                    <p>Ветер: {data.current.wind} м/с</p>
+export default function WeatherDisplay({ weather, loading, error }) {
+    if (loading) return <p className="small">Загрузка...</p>
+    if (error) return <p className="small">Ошибка: {error}</p>
+    if (!weather) return <p className="small">Введите город и нажмите «Поиск»</p>
+
+    // Защита от неожиданных ответов
+    const cod = weather.cod
+    if (cod && Number(cod) !== 200) {
+        return <p className="small">Город не найден</p>
+    }
+
+    const icon = weather.weather?.[0]?.icon
+    const desc = weather.weather?.[0]?.description
+    const temp = weather.main?.temp
+    const feels = weather.main?.feels_like
+    const humidity = weather.main?.humidity
+    const wind = weather.wind?.speed
+
+    return (
+        <div className="weather-container">
+            <div className="weather-card-expanded">
+                <div className="weather-main-info">
+                    <div className="location-block">
+                        <h1 className="expanded-location">
+                            {weather.name}, {weather.sys?.country}
+                            <span className="weather-desc-expanded">{desc}</span>
+                        </h1>
+                        <div className="current-date">
+                            {new Date().toLocaleDateString('ru-RU', {
+                                weekday: 'long',
+                                day: 'numeric',
+                                month: 'long'
+                            })}
+                        </div>
+                    </div>
+
+                    <div className="weather-icon-expanded">
+                        {icon && (
+                            <img
+                                src={`https://openweathermap.org/img/wn/${icon}@4x.png`}
+                                alt={desc}
+                                className="weather-icon-img-expanded"
+                            />
+                        )}
+                        <div className="temperature-main">
+                            <span className="current-temp-expanded">{Math.round(temp)}°C</span>
+                            <span className="temp-variation">
+              Ощущается как {Math.round(feels)}°C
+            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="weather-details-expanded">
+                    <div className="detail-card">
+                        <i className="bi bi-droplet-fill"></i>
+                        <div>
+                            <div className="detail-label">Влажность</div>
+                            <div className="detail-value">{humidity}%</div>
+                        </div>
+                    </div>
+
+                    <div className="detail-card">
+                        <i className="bi bi-wind"></i>
+                        <div>
+                            <div className="detail-label">Ветер</div>
+                            <div className="detail-value">{wind} м/с</div>
+                        </div>
+                    </div>
+
+                    <div className="detail-card">
+                        <i className="bi bi-speedometer2"></i>
+                        <div>
+                            <div className="detail-label">Давление</div>
+                            <div className="detail-value">
+                                {weather.main?.pressure ? Math.round(weather.main.pressure/1.333) : '-'} мм рт.ст.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="detail-card">
+                        <i className="bi bi-eye-fill"></i>
+                        <div>
+                            <div className="detail-label">Видимость</div>
+                            <div className="detail-value">
+                                {weather.visibility ? weather.visibility/1000 : '-'} км
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    );
-};
-
-export default WeatherDisplay;
+    )
+}

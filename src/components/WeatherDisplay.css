@@ -1,0 +1,143 @@
+.weather-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.weather-card-expanded {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-radius: 30px;
+    padding: 40px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+    color: #2d3748;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+}
+
+.weather-main-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.location-block {
+    flex: 1;
+    min-width: 300px;
+}
+
+.expanded-location {
+    font-size: 3rem;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+    color: #1a202c;
+}
+
+.weather-desc-expanded {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #4a5568;
+    text-transform: capitalize;
+}
+
+.current-date {
+    font-size: 1.2rem;
+    color: #4a5568;
+    margin-top: 10px;
+}
+
+.weather-icon-expanded {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.weather-icon-img-expanded {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    animation: float 4s ease-in-out infinite;
+}
+
+.temperature-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.current-temp-expanded {
+    font-size: 4.5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #2d3748;
+}
+
+.temp-variation {
+    font-size: 1.2rem;
+    color: #4a5568;
+    margin-top: 10px;
+}
+
+.weather-details-expanded {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.detail-card {
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 15px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: transform 0.3s ease;
+}
+
+.detail-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.detail-card i {
+    font-size: 2rem;
+    color: #4e73df;
+}
+
+.detail-label {
+    font-size: 0.9rem;
+    color: #718096;
+    margin-bottom: 5px;
+}
+
+.detail-value {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #2d3748;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@media (max-width: 768px) {
+    .weather-main-info {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .weather-icon-expanded {
+        margin-top: 20px;
+        flex-direction: column;
+    }
+
+    .expanded-location {
+        font-size: 2.2rem;
+    }
+}
